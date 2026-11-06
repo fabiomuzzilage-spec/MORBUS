@@ -2,12 +2,200 @@
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
-    <title>MORBUS</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>MORBUS | Sua conexão</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            min-height: 100vh;
+            background: #080808;
+            color: #ffffff;
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            overflow-x: hidden;
+            padding: 30px 15px;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 35px;
+        }
+
+        header h1 {
+            color: #ff6500;
+            font-size: 52px;
+            letter-spacing: 10px;
+            text-shadow: 0 0 20px #ff650066;
+        }
+
+        header p {
+            color: #aaaaaa;
+            margin-top: 12px;
+            font-size: 15px;
+        }
+
+        .mascote {
+            background: none;
+            border: 2px solid #ff6500;
+            border-radius: 18px;
+            padding: 0;
+            overflow: hidden;
+            cursor: pointer;
+            transition: 0.3s ease;
+            box-shadow: 0 0 25px #ff650044;
+        }
+
+        .mascote:hover {
+            transform: scale(1.06);
+            box-shadow: 0 0 40px #ff6500aa;
+        }
+
+        .mascote img {
+            display: block;
+            width: 230px;
+            height: 230px;
+            object-fit: cover;
+        }
+
+        .instrucao {
+            color: #ff6500;
+            margin-top: 20px;
+            font-size: 13px;
+            letter-spacing: 2px;
+        }
+
+        .login {
+            display: none;
+            flex-direction: column;
+            gap: 14px;
+            width: 290px;
+            margin-top: 30px;
+        }
+
+        .login h2 {
+            color: #ff6500;
+            text-align: center;
+            margin-bottom: 8px;
+        }
+
+        .login input {
+            padding: 14px;
+            border: 1px solid #ff6500;
+            border-radius: 7px;
+            background: #171717;
+            color: white;
+            outline: none;
+        }
+
+        .login input:focus {
+            box-shadow: 0 0 10px #ff650066;
+        }
+
+        .login button {
+            padding: 14px;
+            background: #ff6500;
+            border: none;
+            border-radius: 7px;
+            color: #080808;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .login button:hover {
+            background: #ff8533;
+        }
+
+        footer {
+            margin-top: 45px;
+            color: #666666;
+            font-size: 12px;
+            text-align: center;
+        }
+
+        @media (max-width: 480px) {
+            header h1 {
+                font-size: 40px;
+            }
+
+            .mascote img {
+                width: 200px;
+                height: 200px;
+            }
+        }
+    </style>
 </head>
+
 <body>
-    <h1>MORBUS</h1>
-    <img src="morbus-mascote.png.png" alt="Mascote MORBUS">
-    <p>Sua tela, sua conexão.</p>
-    <p>Nossa plataforma está começando!</p>
+
+    <header>
+        <h1>MORBUS</h1>
+        <p>Sua tela, sua conexão.</p>
+    </header>
+
+    <button
+        class="mascote"
+        onclick="abrirLogin()"
+        aria-label="Entrar no MORBUS"
+    >
+        <img
+            src="morbus-mascote.png.png"
+            alt="Mascote encapuzado do MORBUS"
+        >
+    </button>
+
+    <p class="instrucao">
+        CLIQUE NO MASCOTE PARA ENTRAR
+    </p>
+
+    <div class="login" id="login">
+
+        <h2>ACESSAR MORBUS</h2>
+
+        <input
+            type="text"
+            placeholder="Nome de usuário"
+            autocomplete="username"
+        >
+
+        <input
+            type="password"
+            placeholder="Senha"
+            autocomplete="current-password"
+        >
+
+        <button onclick="alert('Sistema de login será implementado posteriormente!')">
+            ENTRAR
+        </button>
+
+    </div>
+
+    <footer>
+        MORBUS © 2026 - Nossa plataforma está começando.
+    </footer>
+
+    <script>
+        function abrirLogin() {
+            const login = document.getElementById("login");
+
+            login.style.display = "flex";
+
+            login.scrollIntoView({
+                behavior: "smooth",
+                block: "center"
+            });
+        }
+    </script>
+
 </body>
 </html>
