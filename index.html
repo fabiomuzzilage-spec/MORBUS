@@ -499,6 +499,28 @@ body {
         padding: 12px;
     }
 }
+    .notificacao {
+    position: fixed;
+    bottom: 25px;
+    right: 25px;
+    background: #171717;
+    color: #fff;
+    padding: 16px 22px;
+    border: 1px solid #ff6500;
+    border-radius: 10px;
+    box-shadow: 0 0 20px #ff650044;
+    font-size: 14px;
+    z-index: 9999;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: all 0.3s ease;
+    pointer-events: none;
+}
+
+.notificacao.visivel {
+    opacity: 1;
+    transform: translateY(0);
+}
 </style>
 </head>
 
@@ -538,7 +560,9 @@ body {
 </section>
 
 <!-- PLATAFORMA -->
-
+    
+<div id="notificacao" class="notificacao"></div>
+    
 <main id="app">
 
     <aside class="servidores">
@@ -744,6 +768,16 @@ function trocarCanal(botao, nome) {
         "Enviar mensagem em #" + nome + "...";
 }
 
+    function mostrarNotificacao(texto) {
+    const notificacao = document.getElementById("notificacao");
+
+    notificacao.textContent = texto;
+    notificacao.classList.add("visivel");
+
+    setTimeout(function() {
+        notificacao.classList.remove("visivel");
+    }, 3000);
+}
 function entrarVoz(nome) {
     alert("Você selecionou a sala: " + nome +
         "\nA comunicação por voz será implementada futuramente.");
@@ -800,6 +834,8 @@ document.getElementById("formMensagem").addEventListener("submit", function(even
         JSON.stringify(historicoCanais)
     );
 
+    mostrarNotificacao("Mensagem enviada com sucesso!");
+    
     campo.value = "";
 
     document.getElementById("mensagens").scrollTop =
