@@ -49,8 +49,19 @@ body {
     font-weight: bold;
     margin-bottom: 12px;
 }
+    
+.mascote-login {
+    display: block;
+    width: 125px;
+    height: 125px;
+    object-fit: cover;
+    border-radius: 50%;
+    border: 2px solid #ff6500;
+    box-shadow: 0 0 25px #ff650055;
+    margin: 0 auto 20px;
+}
 
-.login-box p {
+    .login-box p {
     color: #888;
     font-size: 13px;
     margin-bottom: 25px;
@@ -424,9 +435,11 @@ body {
 <section id="login">
     <div class="login-box">
 
-        <div class="logo-login">MORBUS</div>
+       <div class="logo-login">MORBUS</div>
 
-        <p>SUA TELA, SUA CONEXÃO.</p>
+<img src="morbus-mascote.png.png" alt="Mascote MORBUS" class="mascote-login">
+
+<p>SUA TELA, SUA CONEXÃO.</p>
 
         <form id="formLogin">
             <input
