@@ -61,14 +61,14 @@ body {
     margin: 0 auto 20px;
 }
 
-    .login-box p {
+ .login-box p {
     color: #888;
     font-size: 13px;
     margin-bottom: 25px;
 }
 
 .login-box input {
-    width: 100%;
+    width: 100%;w
     padding: 14px;
     margin-bottom: 15px;
     border: 1px solid #393939;
@@ -214,14 +214,18 @@ body {
 }
 
 .avatar {
-    width: 35px;
-    height: 35px;
-    border-radius: 50%;
-    background: #ff6500;
+    width: 38px;
+    height: 38px;
+    min-width: 38px;
+    border-radius: 12px;
+    background: linear-gradient(145deg, #ff7a1a, #c94b00);
     color: #111;
     display: grid;
     place-items: center;
     font-weight: bold;
+    font-size: 14px;
+    border: 1px solid #ff8a3d;
+    box-shadow: 0 0 10px #ff650033;
 }
 
 .usuario-info strong {
@@ -309,8 +313,9 @@ body {
 
 .mensagem {
     display: flex;
-    gap: 12px;
-    margin-bottom: 22px;
+    gap: 14px;
+    margin-bottom: 26px;
+    align-items: flex-start;
 }
 
 .mensagem .avatar {
@@ -318,20 +323,23 @@ body {
 }
 
 .texto-mensagem strong {
+    color: #ff6500;
     font-size: 13px;
+    font-weight: 600;
 }
 
 .texto-mensagem small {
-    color: #777;
-    font-size: 10px;
-    margin-left: 8px;
+    color: #888;
+    font-size: 11px;
+    margin-left: 10px;
+    font-weight: normal;
 }
 
 .texto-mensagem p {
-    color: #bbb;
-    font-size: 13px;
-    margin-top: 6px;
-    line-height: 1.5;
+    color: #d0d0d0;
+    font-size: 14px;
+    margin-top: 7px;
+    line-height: 1.6;
 }
 
 .envio {
@@ -344,26 +352,36 @@ body {
 .envio input {
     flex: 1;
     min-width: 0;
-    padding: 14px;
+    padding: 15px 18px;
     background: #090909;
-    border: 1px solid #333;
-    border-radius: 8px;
-    color: white;
+    border: 1px solid #292929;
+    border-radius: 10px;
+    color: #fff;
+    font-size: 14px;
     outline: none;
+    transition: all 0.3s ease;
 }
 
 .envio input:focus {
     border-color: #ff6500;
+    box-shadow: 0 0 12px #ff650033;
 }
 
 .envio button {
-    padding: 0 20px;
-    border: none;
-    border-radius: 8px;
-    background: #ff6500;
+    padding: 0 24px;
+    border: 1px solid #ff6500;
+    border-radius: 10px;
+    background: linear-gradient(145deg, #ff781a, #e65300);
     color: #111;
     font-weight: bold;
     cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.envio button:hover {
+    background: #ff8a36;
+    box-shadow: 0 0 14px #ff650055;
+    transform: translateY(-1px);
 }
 
 /* MEMBROS */
