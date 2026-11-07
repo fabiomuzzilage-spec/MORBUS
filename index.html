@@ -679,13 +679,18 @@ body {
 </main>
 
 <script>
+    let canalAtual = "geral";
 
-document.getElementById("formLogin").addEventListener("submit", function(event) {
-    event.preventDefault();
+    const historicoCanais = {
+        geral: document.getElementById("mensagens").innerHTML
+};
 
-    const nome = document.getElementById("nomeUsuario").value.trim();
+    document.getElementById("formLogin").addEventListener("submit", function(event) {
+        event.preventDefault();
 
-    if (!nome) return;
+        const nome = document.getElementById("nomeUsuario").value.trim();
+
+        if (!nome) return;
 
     document.getElementById("nomeLogado").textContent = nome;
     document.getElementById("membroAtual").textContent = nome;
@@ -710,6 +715,14 @@ function trocarCanal(botao, nome) {
     });
 
     botao.classList.add("ativo");
+
+    historicoCanais[canalAtual] =
+        document.getElementById("mensagens").innerHTML;
+
+    canalAtual = nome;
+
+    document.getElementById("mensagens").innerHTML =
+        historicoCanais[canalAtual] || "";
 
     document.getElementById("tituloCanal").textContent = "# " + nome;
     document.getElementById("campoMensagem").placeholder =
