@@ -106,25 +106,30 @@ body {
 }
 
 .mascote-painel {
-    width: 48px;
-    height: 48px;
+    width: 50px;
+    height: 50px;
     object-fit: cover;
-    border-radius: 14px;
+    border-radius: 15px;
     border: 2px solid #ff6500;
-    box-shadow: 0 0 15px #ff650055;
-    margin-bottom: 5px;
+    box-shadow: 0 0 12px #ff650055, inset 0 0 8px #ff650022;
+    margin-bottom: 8px;
+    transition: all 0.3s ease;
 }
 
+.mascote-painel:hover {
+    transform: scale(1.08);
+    box-shadow: 0 0 20px #ff650088;
+}
 .servidores {
     width: 76px;
     min-width: 76px;
-    background: #080808;
-    border-right: 1px solid #222;
+    background: linear-gradient(180deg, #090909, #111);
+    border-right: 1px solid #ff650033;
     display: flex;
     flex-direction: column;
     align-items: center;
     padding: 15px 0;
-    gap: 14px;
+    gap: 16px;
 }
 
 .servidor {
@@ -132,12 +137,12 @@ body {
     height: 48px;
     border-radius: 15px;
     border: 1px solid #383838;
-    background: #191919;
+    background: linear-gradient(145deg, #202020, #111);
     color: #ff6500;
     font-weight: bold;
     font-size: 17px;
     cursor: pointer;
-    transition: .2s;
+    transition: all .25s ease;
 }
 
 .servidor:hover,
@@ -146,6 +151,7 @@ body {
     border-radius: 12px;
     background: #351a0b;
     box-shadow: 0 0 15px #ff650033;
+    transform: scale(1.06);
 }
 
 .separador {
@@ -157,10 +163,11 @@ body {
 .canais {
     width: 245px;
     min-width: 210px;
-    background: #111;
-    border-right: 1px solid #222;
+    background: linear-gradient(180deg, #121212 0%, #0b0b0b 100%);
+    border-right: 1px solid #ff650033;
     display: flex;
     flex-direction: column;
+    box-shadow: 3px 0 12px #00000033;
 }
 
 .nome-servidor {
@@ -182,25 +189,31 @@ body {
 .canal {
     display: block;
     width: calc(100% - 18px);
-    margin: 3px 9px;
-    padding: 11px;
+    margin: 4px 9px;
+    padding: 12px;
     text-align: left;
-    border: none;
-    border-radius: 6px;
+    border: 1px solid transparent;
+    border-radius: 8px;
     background: transparent;
     color: #999;
     font-size: 14px;
     cursor: pointer;
+    transition: all 0.25s ease;
 }
 
 .canal:hover {
-    background: #252525;
-    color: white;
+    background: #202020;
+    color: #fff;
+    border-color: #333;
+    transform: translateX(3px);
 }
 
 .canal.ativo {
-    background: #38200f;
+    background: linear-gradient(90deg, #38200f, #24150c);
     color: #ff8533;
+    border-left: 3px solid #ff6500;
+    font-weight: bold;
+    box-shadow: 0 0 12px #ff650018;
 }
 
 .usuario-logado {
@@ -250,22 +263,28 @@ body {
 }
 
 .topo {
-    height: 65px;
-    padding: 0 22px;
-    border-bottom: 1px solid #292929;
+    height: 70px;
+    min-height: 70px;
+    padding: 0 25px;
+    background: linear-gradient(90deg, #111 0%, #181818 100%);
+    border-bottom: 1px solid #ff650033;
     display: flex;
     align-items: center;
     justify-content: space-between;
+    box-shadow: 0 3px 12px #00000055;
 }
 
 .topo h2 {
-    color: white;
-    font-size: 16px;
+    color: #f0f0f0;
+    font-size: 17px;
+    font-weight: 700;
 }
 
 .topo span {
     color: #ff6500;
-    font-size: 12px;
+    font-size: 10px;
+    letter-spacing: 2px;
+    font-weight: bold;
 }
 
 .mensagens {
