@@ -679,11 +679,20 @@ body {
 </main>
 
 <script>
-    let canalAtual = "geral";
+   let canalAtual = "geral";
 
-    const historicoCanais = {
-        geral: document.getElementById("mensagens").innerHTML
-};
+const conteudoInicial = document.getElementById("mensagens").innerHTML;
+
+const historicoSalvo = localStorage.getItem("historicoCanais");
+
+const historicoCanais = historicoSalvo
+    ? JSON.parse(historicoSalvo)
+    : {
+        geral: conteudoInicial
+    };
+
+document.getElementById("mensagens").innerHTML =
+    historicoCanais[canalAtual] || "";
 
     document.getElementById("formLogin").addEventListener("submit", function(event) {
         event.preventDefault();
