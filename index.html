@@ -268,22 +268,33 @@ body {
     flex: 1;
     overflow-y: auto;
     padding: 25px;
+    position: relative;
+    background: radial-gradient(circle at center, #1c1c1c 0%, #101010 65%, #080808 100%);
+}
+.mensagens::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background-image: url("morbus-mascote.png.png");
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-size: min(70%, 520px) auto;
+    opacity: 0.10;
+    pointer-events: none;
+    z-index: 0;
 }
 
+.mensagens > * {
+    position: relative;
+    z-index: 1;
+}
 .boas-vindas {
     padding: 22px;
     margin-bottom: 25px;
     border-bottom: 1px solid #333;
 }
 .mascote-boas-vindas {
-    display: block;
-    width: 110px;
-    height: 110px;
-    object-fit: cover;
-    border-radius: 50%;
-    border: 2px solid #ff6500;
-    box-shadow: 0 0 25px #ff650055;
-    margin: 0 auto 20px;
+    display: none;
 }
 
 .boas-vindas h2 {
