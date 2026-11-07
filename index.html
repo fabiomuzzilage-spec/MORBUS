@@ -728,12 +728,18 @@ function trocarCanal(botao, nome) {
     historicoCanais[canalAtual] =
         document.getElementById("mensagens").innerHTML;
 
+    localStorage.setItem(
+        "historicoCanais",
+        JSON.stringify(historicoCanais)
+    );
+
     canalAtual = nome;
 
     document.getElementById("mensagens").innerHTML =
         historicoCanais[canalAtual] || "";
 
     document.getElementById("tituloCanal").textContent = "# " + nome;
+
     document.getElementById("campoMensagem").placeholder =
         "Enviar mensagem em #" + nome + "...";
 }
@@ -742,6 +748,7 @@ function entrarVoz(nome) {
     alert("Você selecionou a sala: " + nome +
         "\nA comunicação por voz será implementada futuramente.");
 }
+
 
 document.getElementById("formMensagem").addEventListener("submit", function(event) {
     event.preventDefault();
@@ -784,6 +791,14 @@ document.getElementById("formMensagem").addEventListener("submit", function(even
     mensagem.appendChild(conteudo);
 
     document.getElementById("mensagens").appendChild(mensagem);
+
+    historicoCanais[canalAtual] =
+        document.getElementById("mensagens").innerHTML;
+
+    localStorage.setItem(
+        "historicoCanais",
+        JSON.stringify(historicoCanais)
+    );
 
     campo.value = "";
 
