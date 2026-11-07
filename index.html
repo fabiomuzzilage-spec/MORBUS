@@ -105,6 +105,16 @@ body {
     height: 100vh;
 }
 
+.mascote-painel {
+    width: 48px;
+    height: 48px;
+    object-fit: cover;
+    border-radius: 14px;
+    border: 2px solid #ff6500;
+    box-shadow: 0 0 15px #ff650055;
+    margin-bottom: 5px;
+}
+
 .servidores {
     width: 76px;
     min-width: 76px;
@@ -469,6 +479,8 @@ body {
 
     <aside class="servidores">
 
+        <img src="morbus-mascote.png.png" alt="Mascote MORBUS" class="mascote-painel">
+     
         <button class="servidor ativo" title="Morbus"
             onclick="trocarServidor(this, 'MORBUS')">M</button>
 
