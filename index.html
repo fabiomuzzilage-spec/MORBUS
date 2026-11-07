@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>MORBUS | Acesso</title>
+<title>MORBUS | Comunidade</title>
 
 <style>
 * {
@@ -13,179 +13,405 @@
 }
 
 body {
-    min-height: 100vh;
-    background:
-        radial-gradient(ellipse at center, #241006 0%, #0b0806 45%, #050505 100%);
-    color: white;
+    background: #0b0b0b;
+    color: #eee;
     font-family: Arial, sans-serif;
+    height: 100vh;
+    overflow: hidden;
+}
+
+/* LOGIN */
+
+#login {
+    min-height: 100vh;
     display: flex;
     justify-content: center;
     align-items: center;
-    padding: 25px;
+    background: radial-gradient(circle, #281205, #080808 65%);
+    padding: 20px;
 }
 
-.container {
+.login-box {
     width: 100%;
-    max-width: 420px;
-    text-align: center;
-}
-
-.logo {
-    color: #ff6500;
-    font-size: 42px;
-    letter-spacing: 12px;
-    font-weight: bold;
-    text-shadow: 0 0 20px #ff650088;
-}
-
-.subtitulo {
-    color: #888;
-    font-size: 12px;
-    letter-spacing: 4px;
-    margin-top: 10px;
-    margin-bottom: 25px;
-}
-
-.painel {
-    background: rgba(18, 18, 18, 0.95);
+    max-width: 380px;
+    padding: 35px;
+    background: #151515;
     border: 1px solid #713000;
-    border-radius: 18px;
-    padding: 30px;
+    border-radius: 16px;
+    text-align: center;
     box-shadow: 0 0 35px #ff650022;
 }
 
-.mascote {
-    width: 125px;
-    height: 125px;
-    object-fit: cover;
-    border-radius: 50%;
-    border: 2px solid #ff6500;
-    box-shadow: 0 0 25px #ff650055;
-    margin-bottom: 20px;
-}
-
-h2 {
+.logo-login {
     color: #ff6500;
-    font-size: 20px;
-    letter-spacing: 3px;
-    margin-bottom: 8px;
+    font-size: 42px;
+    letter-spacing: 10px;
+    font-weight: bold;
+    margin-bottom: 12px;
 }
 
-.descricao {
+.login-box p {
     color: #888;
     font-size: 13px;
     margin-bottom: 25px;
 }
 
-.campo {
-    text-align: left;
-    margin-bottom: 18px;
-}
-
-.campo label {
-    display: block;
-    color: #bbb;
-    font-size: 12px;
-    margin-bottom: 8px;
-}
-
-.campo input {
+.login-box input {
     width: 100%;
     padding: 14px;
-    background: #090909;
+    margin-bottom: 15px;
     border: 1px solid #393939;
+    background: #090909;
+    border-radius: 7px;
+    color: white;
+    outline: none;
+}
+
+.login-box input:focus {
+    border-color: #ff6500;
+}
+
+.botao-entrar {
+    width: 100%;
+    padding: 14px;
+    border: none;
+    border-radius: 7px;
+    background: #ff6500;
+    color: #111;
+    font-weight: bold;
+    cursor: pointer;
+    transition: .3s;
+}
+
+.botao-entrar:hover {
+    background: #ff8533;
+}
+
+/* PAINEL PRINCIPAL */
+
+#app {
+    display: none;
+    height: 100vh;
+}
+
+.servidores {
+    width: 76px;
+    min-width: 76px;
+    background: #080808;
+    border-right: 1px solid #222;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 15px 0;
+    gap: 14px;
+}
+
+.servidor {
+    width: 48px;
+    height: 48px;
+    border-radius: 15px;
+    border: 1px solid #383838;
+    background: #191919;
+    color: #ff6500;
+    font-weight: bold;
+    font-size: 17px;
+    cursor: pointer;
+    transition: .2s;
+}
+
+.servidor:hover,
+.servidor.ativo {
+    border-color: #ff6500;
+    border-radius: 12px;
+    background: #351a0b;
+    box-shadow: 0 0 15px #ff650033;
+}
+
+.separador {
+    width: 35px;
+    height: 1px;
+    background: #333;
+}
+
+.canais {
+    width: 245px;
+    min-width: 210px;
+    background: #111;
+    border-right: 1px solid #222;
+    display: flex;
+    flex-direction: column;
+}
+
+.nome-servidor {
+    padding: 23px 18px;
+    color: #ff6500;
+    font-size: 17px;
+    font-weight: bold;
+    border-bottom: 1px solid #292929;
+}
+
+.grupo {
+    color: #777;
+    font-size: 11px;
+    font-weight: bold;
+    letter-spacing: 2px;
+    padding: 24px 18px 10px;
+}
+
+.canal {
+    display: block;
+    width: calc(100% - 18px);
+    margin: 3px 9px;
+    padding: 11px;
+    text-align: left;
+    border: none;
+    border-radius: 6px;
+    background: transparent;
+    color: #999;
+    font-size: 14px;
+    cursor: pointer;
+}
+
+.canal:hover {
+    background: #252525;
+    color: white;
+}
+
+.canal.ativo {
+    background: #38200f;
+    color: #ff8533;
+}
+
+.usuario-logado {
+    margin-top: auto;
+    padding: 15px;
+    background: #191919;
+    border-top: 1px solid #292929;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.avatar {
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    background: #ff6500;
+    color: #111;
+    display: grid;
+    place-items: center;
+    font-weight: bold;
+}
+
+.usuario-info strong {
+    font-size: 12px;
+}
+
+.usuario-info small {
+    display: block;
+    color: #777;
+    font-size: 10px;
+    margin-top: 4px;
+}
+
+/* CONVERSA */
+
+.conversa {
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    background: #151515;
+}
+
+.topo {
+    height: 65px;
+    padding: 0 22px;
+    border-bottom: 1px solid #292929;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.topo h2 {
+    color: white;
+    font-size: 16px;
+}
+
+.topo span {
+    color: #ff6500;
+    font-size: 12px;
+}
+
+.mensagens {
+    flex: 1;
+    overflow-y: auto;
+    padding: 25px;
+}
+
+.boas-vindas {
+    padding: 22px;
+    margin-bottom: 25px;
+    border-bottom: 1px solid #333;
+}
+
+.boas-vindas h2 {
+    color: #ff6500;
+    margin-bottom: 10px;
+}
+
+.boas-vindas p {
+    color: #888;
+    font-size: 13px;
+}
+
+.mensagem {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 22px;
+}
+
+.mensagem .avatar {
+    min-width: 35px;
+}
+
+.texto-mensagem strong {
+    font-size: 13px;
+}
+
+.texto-mensagem small {
+    color: #777;
+    font-size: 10px;
+    margin-left: 8px;
+}
+
+.texto-mensagem p {
+    color: #bbb;
+    font-size: 13px;
+    margin-top: 6px;
+    line-height: 1.5;
+}
+
+.envio {
+    padding: 18px 22px;
+    border-top: 1px solid #292929;
+    display: flex;
+    gap: 10px;
+}
+
+.envio input {
+    flex: 1;
+    min-width: 0;
+    padding: 14px;
+    background: #090909;
+    border: 1px solid #333;
     border-radius: 8px;
     color: white;
     outline: none;
-    font-size: 14px;
-    transition: 0.3s;
 }
 
-.campo input:focus {
+.envio input:focus {
     border-color: #ff6500;
-    box-shadow: 0 0 12px #ff650033;
 }
 
-.senha-box {
-    display: flex;
-    position: relative;
-}
-
-.senha-box input {
-    padding-right: 65px;
-}
-
-.mostrar {
-    position: absolute;
-    right: 12px;
-    top: 50%;
-    transform: translateY(-50%);
-    background: none;
-    border: none;
-    color: #ff8533;
-    cursor: pointer;
-    font-size: 11px;
-}
-
-.entrar {
-    width: 100%;
-    padding: 15px;
-    margin-top: 8px;
-    background: #ff6500;
-    color: #080808;
+.envio button {
+    padding: 0 20px;
     border: none;
     border-radius: 8px;
+    background: #ff6500;
+    color: #111;
     font-weight: bold;
-    font-size: 14px;
-    letter-spacing: 2px;
-    cursor: pointer;
-    transition: 0.3s;
-}
-
-.entrar:hover {
-    background: #ff8533;
-    box-shadow: 0 0 20px #ff650066;
-    transform: translateY(-2px);
-}
-
-.links {
-    display: flex;
-    justify-content: space-between;
-    gap: 10px;
-    margin-top: 22px;
-}
-
-.links button {
-    background: none;
-    border: none;
-    color: #ff8533;
-    font-size: 12px;
     cursor: pointer;
 }
 
-.links button:hover {
-    color: white;
+/* MEMBROS */
+
+.membros {
+    width: 205px;
+    min-width: 180px;
+    padding: 20px 15px;
+    background: #101010;
+    border-left: 1px solid #292929;
 }
 
-.linha {
-    height: 1px;
-    background: #292929;
-    margin: 25px 0 18px;
-}
-
-.rodape {
-    color: #555;
+.titulo-membros {
+    color: #777;
     font-size: 11px;
     letter-spacing: 2px;
+    margin-bottom: 20px;
 }
 
-@media (max-width: 480px) {
-    .painel {
-        padding: 22px;
+.membro {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 17px;
+}
+
+.membro .avatar {
+    width: 30px;
+    height: 30px;
+    min-width: 30px;
+    font-size: 12px;
+}
+
+.membro span {
+    font-size: 12px;
+}
+
+.online {
+    color: #57c77a;
+    font-size: 10px;
+    display: block;
+    margin-top: 3px;
+}
+
+.compartilhar {
+    width: 100%;
+    padding: 12px 5px;
+    margin-top: 30px;
+    background: #21150e;
+    border: 1px solid #713000;
+    color: #ff8533;
+    border-radius: 7px;
+    cursor: pointer;
+    font-size: 11px;
+}
+
+/* RESPONSIVIDADE */
+
+@media(max-width: 850px) {
+    .membros {
+        display: none;
+    }
+}
+
+@media(max-width: 600px) {
+    .canais {
+        width: 165px;
+        min-width: 165px;
     }
 
-    .logo {
-        font-size: 34px;
+    .servidores {
+        width: 58px;
+        min-width: 58px;
+    }
+
+    .servidor {
+        width: 40px;
+        height: 40px;
+    }
+
+    .mensagens {
+        padding: 15px;
+    }
+
+    .topo {
+        padding: 0 12px;
+    }
+
+    .envio {
+        padding: 12px;
     }
 }
 </style>
@@ -193,110 +419,263 @@ h2 {
 
 <body>
 
-<div class="container">
+<!-- TELA DE LOGIN -->
 
-    <div class="logo">MORBUS</div>
-    <div class="subtitulo">SUA TELA, SUA CONEXÃO</div>
+<section id="login">
+    <div class="login-box">
 
-    <div class="painel">
+        <div class="logo-login">MORBUS</div>
 
-        <img
-            src="morbus-mascote.png.png"
-            alt="Mascote MORBUS"
-            class="mascote"
-        >
-
-        <h2>BEM-VINDO</h2>
-
-        <p class="descricao">
-            Entre na sua comunidade.
-        </p>
+        <p>SUA TELA, SUA CONEXÃO.</p>
 
         <form id="formLogin">
+            <input
+                type="text"
+                id="nomeUsuario"
+                placeholder="Seu nome de usuário"
+                required
+            >
 
-            <div class="campo">
-                <label for="usuario">USUÁRIO</label>
-                <input
-                    type="text"
-                    id="usuario"
-                    placeholder="Digite seu usuário"
-                    autocomplete="username"
-                    required
-                >
+            <input
+                type="password"
+                placeholder="Senha demonstrativa"
+                required
+            >
+
+            <button class="botao-entrar" type="submit">
+                ENTRAR NO MORBUS
+            </button>
+        </form>
+
+    </div>
+</section>
+
+<!-- PLATAFORMA -->
+
+<main id="app">
+
+    <aside class="servidores">
+
+        <button class="servidor ativo" title="Morbus"
+            onclick="trocarServidor(this, 'MORBUS')">M</button>
+
+        <button class="servidor" title="Sobreviventes"
+            onclick="trocarServidor(this, 'SOBREVIVENTES')">S</button>
+
+        <button class="servidor" title="Clã"
+            onclick="trocarServidor(this, 'CLÃ MORBUS')">C</button>
+
+        <div class="separador"></div>
+
+        <button class="servidor" title="Adicionar servidor"
+            onclick="alert('Criação de servidores será implementada futuramente.')">+</button>
+
+    </aside>
+
+    <aside class="canais">
+
+        <div class="nome-servidor" id="nomeServidor">
+            MORBUS
+        </div>
+
+        <div class="grupo">CANAIS DE TEXTO</div>
+
+        <button class="canal ativo"
+            onclick="trocarCanal(this, 'geral')"># geral</button>
+
+        <button class="canal"
+            onclick="trocarCanal(this, 'bate-papo')"># bate-papo</button>
+
+        <button class="canal"
+            onclick="trocarCanal(this, 'avisos')"># avisos</button>
+
+        <div class="grupo">CANAIS DE VOZ</div>
+
+        <button class="canal"
+            onclick="entrarVoz('Sala de reunião')">◖ Sala de reunião</button>
+
+        <button class="canal"
+            onclick="entrarVoz('Resenha')">◖ Resenha</button>
+
+        <button class="canal"
+            onclick="entrarVoz('Operações')">◖ Operações</button>
+
+        <div class="usuario-logado">
+            <div class="avatar" id="avatarUsuario">M</div>
+            <div class="usuario-info">
+                <strong id="nomeLogado">Membro</strong>
+                <small>● Conectado</small>
+            </div>
+        </div>
+
+    </aside>
+
+    <section class="conversa">
+
+        <header class="topo">
+            <h2 id="tituloCanal"># geral</h2>
+            <span>MORBUS COMMUNITY</span>
+        </header>
+
+        <div class="mensagens" id="mensagens">
+
+            <div class="boas-vindas">
+                <h2>Bem-vindo ao MORBUS!</h2>
+                <p>Este é o início da sua comunidade. Prepare-se para se conectar.</p>
             </div>
 
-            <div class="campo">
-                <label for="senha">SENHA</label>
-
-                <div class="senha-box">
-                    <input
-                        type="password"
-                        id="senha"
-                        placeholder="Digite sua senha"
-                        autocomplete="current-password"
-                        required
-                    >
-
-                    <button
-                        type="button"
-                        class="mostrar"
-                        onclick="mostrarSenha()"
-                    >
-                        MOSTRAR
-                    </button>
+            <div class="mensagem">
+                <div class="avatar">M</div>
+                <div class="texto-mensagem">
+                    <strong>MORBUS SYSTEM</strong>
+                    <small>Agora</small>
+                    <p>A plataforma está pronta para receber seus primeiros membros!</p>
                 </div>
             </div>
 
-            <button type="submit" class="entrar">
-                ENTRAR NO MORBUS
-            </button>
+        </div>
 
+        <form class="envio" id="formMensagem">
+            <input
+                type="text"
+                id="campoMensagem"
+                placeholder="Enviar mensagem em #geral..."
+                autocomplete="off"
+                required
+            >
+            <button type="submit">ENVIAR</button>
         </form>
 
-        <div class="links">
+    </section>
 
-            <button type="button" onclick="aviso('A recuperação de senha será implementada futuramente.')">
-                Esqueci a senha
-            </button>
+    <aside class="membros">
 
-            <button type="button" onclick="aviso('O cadastro será implementado futuramente.')">
-                Criar conta
-            </button>
+        <div class="titulo-membros">MEMBROS — 3</div>
 
+        <div class="membro">
+            <div class="avatar">M</div>
+            <div>
+                <span id="membroAtual">Membro</span>
+                <small class="online">● Online</small>
+            </div>
         </div>
 
-        <div class="linha"></div>
-
-        <div class="rodape">
-            MORBUS © 2026
+        <div class="membro">
+            <div class="avatar">C</div>
+            <div>
+                <span>Cowboy</span>
+                <small class="online">● Online</small>
+            </div>
         </div>
 
-    </div>
+        <div class="membro">
+            <div class="avatar">P</div>
+            <div>
+                <span>Portuguinha</span>
+                <small class="online">● Online</small>
+            </div>
+        </div>
 
-</div>
+        <button class="compartilhar"
+            onclick="alert('O compartilhamento de tela será implementado em uma próxima etapa.')">
+            ▣ COMPARTILHAR TELA
+        </button>
+
+    </aside>
+
+</main>
 
 <script>
-function mostrarSenha() {
-    const campo = document.getElementById("senha");
-    const botao = document.querySelector(".mostrar");
-
-    if (campo.type === "password") {
-        campo.type = "text";
-        botao.textContent = "OCULTAR";
-    } else {
-        campo.type = "password";
-        botao.textContent = "MOSTRAR";
-    }
-}
-
-function aviso(mensagem) {
-    alert(mensagem);
-}
 
 document.getElementById("formLogin").addEventListener("submit", function(event) {
     event.preventDefault();
-    aviso("O sistema de autenticação será implementado em uma próxima etapa!");
+
+    const nome = document.getElementById("nomeUsuario").value.trim();
+
+    if (!nome) return;
+
+    document.getElementById("nomeLogado").textContent = nome;
+    document.getElementById("membroAtual").textContent = nome;
+    document.getElementById("avatarUsuario").textContent = nome.charAt(0).toUpperCase();
+
+    document.getElementById("login").style.display = "none";
+    document.getElementById("app").style.display = "flex";
 });
+
+function trocarServidor(botao, nome) {
+    document.querySelectorAll(".servidor").forEach(item => {
+        item.classList.remove("ativo");
+    });
+
+    botao.classList.add("ativo");
+    document.getElementById("nomeServidor").textContent = nome;
+}
+
+function trocarCanal(botao, nome) {
+    document.querySelectorAll(".canal").forEach(item => {
+        item.classList.remove("ativo");
+    });
+
+    botao.classList.add("ativo");
+
+    document.getElementById("tituloCanal").textContent = "# " + nome;
+    document.getElementById("campoMensagem").placeholder =
+        "Enviar mensagem em #" + nome + "...";
+}
+
+function entrarVoz(nome) {
+    alert("Você selecionou a sala: " + nome +
+        "\nA comunicação por voz será implementada futuramente.");
+}
+
+document.getElementById("formMensagem").addEventListener("submit", function(event) {
+    event.preventDefault();
+
+    const campo = document.getElementById("campoMensagem");
+    const texto = campo.value.trim();
+
+    if (!texto) return;
+
+    const nome = document.getElementById("nomeLogado").textContent;
+    const inicial = nome.charAt(0).toUpperCase();
+
+    const mensagem = document.createElement("div");
+    mensagem.className = "mensagem";
+
+    const avatar = document.createElement("div");
+    avatar.className = "avatar";
+    avatar.textContent = inicial;
+
+    const conteudo = document.createElement("div");
+    conteudo.className = "texto-mensagem";
+
+    const autor = document.createElement("strong");
+    autor.textContent = nome;
+
+    const horario = document.createElement("small");
+    horario.textContent = new Date().toLocaleTimeString("pt-BR", {
+        hour: "2-digit",
+        minute: "2-digit"
+    });
+
+    const textoMensagem = document.createElement("p");
+    textoMensagem.textContent = texto;
+
+    conteudo.appendChild(autor);
+    conteudo.appendChild(horario);
+    conteudo.appendChild(textoMensagem);
+
+    mensagem.appendChild(avatar);
+    mensagem.appendChild(conteudo);
+
+    document.getElementById("mensagens").appendChild(mensagem);
+
+    campo.value = "";
+
+    document.getElementById("mensagens").scrollTop =
+        document.getElementById("mensagens").scrollHeight;
+});
+
 </script>
 
 </body>
