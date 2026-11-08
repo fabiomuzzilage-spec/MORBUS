@@ -201,6 +201,18 @@ body {
     transition: all 0.25s ease;
 }
 
+.canal.nao-lido::after {
+    content: "";
+    display: inline-block;
+    width: 8px;
+    height: 8px;
+    background: #ff6500;
+    border-radius: 50%;
+    float: right;
+    margin-top: 5px;
+    box-shadow: 0 0 8px #ff6500;
+}
+
 .canal:hover {
     background: #202020;
     color: #fff;
@@ -521,6 +533,17 @@ body {
     opacity: 1;
     transform: translateY(0);
 }
+    .canal.nao-lido::after {
+    content: "";
+    display: inline-block;
+    width: 8px;
+    height: 8px;
+    background: #ff6500;
+    border-radius: 50%;
+    margin-left: 8px;
+    box-shadow: 0 0 8px #ff6500;
+}
+    
 </style>
 </head>
 
@@ -593,13 +616,13 @@ body {
 
         <div class="grupo">CANAIS DE TEXTO</div>
 
-        <button class="canal ativo"
+        <button class="canal ativo" data-canal="geral"
             onclick="trocarCanal(this, 'geral')"># geral</button>
 
-        <button class="canal"
+        <button class="canal" data-canal="bate-papo"
             onclick="trocarCanal(this, 'bate-papo')"># bate-papo</button>
 
-        <button class="canal"
+        <button class="canal" data-canal="avisos"
             onclick="trocarCanal(this, 'avisos')"># avisos</button>
 
         <div class="grupo">CANAIS DE VOZ</div>
@@ -704,6 +727,7 @@ body {
 
 <script>
    let canalAtual = "geral";
+   let canaisNaoLidos = [];
 
 const conteudoInicial = document.getElementById("mensagens").innerHTML;
 
@@ -742,6 +766,17 @@ function trocarServidor(botao, nome) {
     document.getElementById("nomeServidor").textContent = nome;
 }
 
+function atualizarIndicadores() {
+    document.querySelectorAll(".canal[data-canal]").forEach(botao => {
+        const nome = botao.dataset.canal;
+
+        botao.classList.toggle(
+            "nao-lido",
+            canaisNaoLidos.includes(nome)
+        );
+    });
+}
+
 function trocarCanal(botao, nome) {
     document.querySelectorAll(".canal").forEach(item => {
         item.classList.remove("ativo");
@@ -758,7 +793,20 @@ function trocarCanal(botao, nome) {
     );
 
     canalAtual = nome;
+    
+    canaisNaoLidos = canaisNaoLidos.filter(canal => canal !== canalAtual);
 
+atualizarIndicadores();
+
+    function marcarCanalComoNaoLido(nome) {
+        marcarCanalComoNaoLido("bate-papo");
+    if (nome === canalAtual) return;
+
+    if (!canaisNaoLidos.includes(nome)) {
+        canaisNaoLidos.push(nome);
+        atualizarIndicadores();
+    }
+}
     document.getElementById("mensagens").innerHTML =
         historicoCanais[canalAtual] || "";
 
