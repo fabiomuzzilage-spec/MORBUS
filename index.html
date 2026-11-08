@@ -777,6 +777,26 @@ function atualizarIndicadores() {
     });
 }
 
+function atualizarIndicadores() {
+    document.querySelectorAll(".canal[data-canal]").forEach(botao => {
+        const nome = botao.dataset.canal;
+
+        botao.classList.toggle(
+            "nao-lido",
+            canaisNaoLidos.includes(nome)
+        );
+    });
+}
+
+function marcarCanalComoNaoLido(nome) {
+    if (nome === canalAtual) return;
+
+    if (!canaisNaoLidos.includes(nome)) {
+        canaisNaoLidos.push(nome);
+        atualizarIndicadores();
+    }
+}
+
 function trocarCanal(botao, nome) {
     document.querySelectorAll(".canal").forEach(item => {
         item.classList.remove("ativo");
@@ -793,20 +813,11 @@ function trocarCanal(botao, nome) {
     );
 
     canalAtual = nome;
-    
+
     canaisNaoLidos = canaisNaoLidos.filter(canal => canal !== canalAtual);
 
-atualizarIndicadores();
+    atualizarIndicadores();
 
-    function marcarCanalComoNaoLido(nome) {
-        marcarCanalComoNaoLido("bate-papo");
-    if (nome === canalAtual) return;
-
-    if (!canaisNaoLidos.includes(nome)) {
-        canaisNaoLidos.push(nome);
-        atualizarIndicadores();
-    }
-}
     document.getElementById("mensagens").innerHTML =
         historicoCanais[canalAtual] || "";
 
@@ -815,7 +826,9 @@ atualizarIndicadores();
     document.getElementById("campoMensagem").placeholder =
         "Enviar mensagem em #" + nome + "...";
 }
-
+    
+marcarCanalComoNaoLido("bate-papo");
+    
     function mostrarNotificacao(texto) {
     const notificacao = document.getElementById("notificacao");
 
