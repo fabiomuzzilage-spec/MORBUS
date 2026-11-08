@@ -847,9 +847,33 @@ marcarCanalComoNaoLido("bate-papo");
         notificacao.classList.remove("visivel");
     }, 3000);
 }
-function entrarVoz(nome) {
-    alert("Você selecionou a sala: " + nome +
-        "\nA comunicação por voz será implementada futuramente.");
+async function entrarVoz(nome) {
+    try {
+        if (salaAtual) {
+            await salaAtual.disconnect();
+        }
+
+        const credenciais = await tokenSource.fetch({
+            roomName: nome,
+            participantName: document.getElementById("nomeLogado").textContent
+        });
+
+        const sala = new LivekitClient.Room();
+
+        await sala.connect(
+            credenciais.serverUrl,
+            credenciais.participantToken
+        );
+
+        salaAtual = sala;
+        nomeSalaAtual = nome;
+
+        mostrarNotificacao("Conectado à sala: " + nome);
+
+    } catch (erro) {
+        console.error("Erro ao entrar na sala:", erro);
+        mostrarNotificacao("Não foi possível entrar na sala.");
+    }
 }
 
 
