@@ -909,28 +909,40 @@ async function entrarVoz(nome) {
 
         const sala = new LivekitClient.Room();
 
+        function exibirTela(track, identidade) {
+            const video = track.attach();
+
+            video.autoplay = true;
+            video.playsInline = true;
+
+            const painel = document.createElement("div");
+            painel.className = "tela-participante";
+
+            painel.appendChild(video);
+
+            const titulo = document.createElement("div");
+            titulo.textContent = identidade + " — Tela compartilhada";
+
+            painel.appendChild(titulo);
+
+            document.getElementById("telasCompartilhadas").appendChild(painel);
+        }
+
         sala
             .on(LivekitClient.RoomEvent.TrackSubscribed, (track, publication, participante) => {
 
                 if (publication.source === LivekitClient.Track.Source.ScreenShare) {
-                    const video = track.attach();
-
-                    video.autoplay = true;
-                    video.playsInline = true;
-
-                    const painel = document.createElement("div");
-                    painel.className = "tela-participante";
-
-                    painel.appendChild(video);
-
-                    const titulo = document.createElement("div");
-                    titulo.textContent = participante.identity + " — Tela compartilhada";
-
-                    painel.appendChild(titulo);
-
-                    document.getElementById("telasCompartilhadas").appendChild(painel);
+                    exibirTela(track, participante.identity);
                 }
             })
+
+            .on(LivekitClient.RoomEvent.LocalTrackPublished, (publication, participante) => {
+
+                if (publication.source === LivekitClient.Track.Source.ScreenShare) {
+                    exibirTela(publication.track, participante.identity);
+                }
+            })
+
             .on(LivekitClient.RoomEvent.TrackUnsubscribed, (track) => {
                 track.detach().forEach(elemento => {
                     const painel = elemento.closest(".tela-participante");
@@ -941,6 +953,17 @@ async function entrarVoz(nome) {
                         elemento.remove();
                     }
                 });
+            })
+
+            .on(LivekitClient.RoomEvent.LocalTrackUnpublished, (publication) => {
+                if (publication.source === LivekitClient.Track.Source.ScreenShare) {
+                    publication.track.detach().forEach(elemento => {
+                        const painel = elemento.closest(".tela-participante");
+
+                        if (painel) painel.remove();
+                        else elemento.remove();
+                    });
+                }
             });
 
         await sala.connect(
