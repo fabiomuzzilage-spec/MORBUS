@@ -716,14 +716,25 @@ body {
             </div>
         </div>
 
-        <button class="compartilhar"
-            onclick="alert('O compartilhamento de tela será implementado em uma próxima etapa.')">
-            ▣ COMPARTILHAR TELA
-        </button>
+       
+<div class="controles-voz">
+    <button class="compartilhar" onclick="alternarMicrofone()">
+        🎙️ LIGAR MICROFONE
+    </button>
 
-    </aside>
+    <button class="compartilhar" onclick="compartilharTela()">
+        ▣ COMPARTILHAR TELA
+    </button>
+
+    <button class="compartilhar" onclick="sairDaSala()">
+        🚪 SAIR DA SALA
+    </button>
+</div>
+
+</aside>
 
 </main>
+
 
 <script src="https://cdn.jsdelivr.net/npm/livekit-client/dist/livekit-client.umd.js"></script>
     
@@ -876,6 +887,40 @@ async function entrarVoz(nome) {
     }
 }
 
+async function alternarMicrofone() {
+    if (!salaAtual) {
+        mostrarNotificacao("Entre em uma sala de voz primeiro.");
+        return;
+    }
+
+    try {
+        const participante = salaAtual.localParticipant;
+        const ativado = !participante.isMicrophoneEnabled;
+
+        await participante.setMicrophoneEnabled(ativado);
+
+        mostrarNotificacao(
+            ativado ? "Microfone ligado!" : "Microfone desligado!"
+        );
+
+    } catch (erro) {
+        console.error("Erro no microfone:", erro);
+        mostrarNotificacao("Não foi possível acessar o microfone.");
+    }
+}
+ async function sairDaSala() {
+    if (!salaAtual) {
+        mostrarNotificacao("Você não está em uma sala.");
+        return;
+    }
+
+    await salaAtual.disconnect();
+
+    salaAtual = null;
+    nomeSalaAtual = null;
+
+    mostrarNotificacao("Você saiu da sala.");
+}
 
 document.getElementById("formMensagem").addEventListener("submit", function(event) {
     event.preventDefault();
