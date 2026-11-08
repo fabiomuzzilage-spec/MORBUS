@@ -891,11 +891,14 @@ marcarCanalComoNaoLido("bate-papo");
         notificacao.classList.remove("visivel");
     }, 3000);
 }
+
 async function entrarVoz(nome) {
     try {
         if (salaAtual) {
             await salaAtual.disconnect();
         }
+
+        document.getElementById("telasCompartilhadas").innerHTML = "";
 
         const credenciais = await tokenSource.fetch({
             roomName: nome,
@@ -904,37 +907,46 @@ async function entrarVoz(nome) {
 
         const sala = new LivekitClient.Room();
 
+        sala
+            .on(LivekitClient.RoomEvent.TrackSubscribed, (track, publication, participante) => {
+
+                if (publication.source === LivekitClient.Track.Source.ScreenShare) {
+                    const video = track.attach();
+
+                    video.autoplay = true;
+                    video.playsInline = true;
+
+                    const painel = document.createElement("div");
+                    painel.className = "tela-participante";
+
+                    painel.appendChild(video);
+
+                    const titulo = document.createElement("div");
+                    titulo.textContent = participante.identity + " — Tela compartilhada";
+
+                    painel.appendChild(titulo);
+
+                    document.getElementById("telasCompartilhadas").appendChild(painel);
+                }
+            })
+            .on(LivekitClient.RoomEvent.TrackUnsubscribed, (track) => {
+                track.detach().forEach(elemento => {
+                    const painel = elemento.closest(".tela-participante");
+
+                    if (painel) {
+                        painel.remove();
+                    } else {
+                        elemento.remove();
+                    }
+                });
+            });
+
         await sala.connect(
             credenciais.serverUrl,
             credenciais.participantToken
         );
 
         salaAtual = sala;
-        document.getElementById("telasCompartilhadas").innerHTML = "";
-        sala
-    .on(LivekitClient.RoomEvent.TrackSubscribed, (track, publication, participante) => {
-        if (track.kind === LivekitClient.Track.Kind.Video) {
-            const video = track.attach();
-
-            video.autoplay = true;
-            video.playsInline = true;
-
-            const painel = document.createElement("div");
-            painel.className = "tela-participante";
-
-            painel.appendChild(video);
-
-            const titulo = document.createElement("div");
-            titulo.textContent = participante.identity + " — Tela compartilhada";
-
-            painel.appendChild(titulo);
-
-            document.getElementById("telasCompartilhadas").appendChild(painel);
-        }
-    })
-    .on(LivekitClient.RoomEvent.TrackUnsubscribed, (track) => {
-        track.detach().forEach(elemento => elemento.remove());
-    });
         nomeSalaAtual = nome;
 
         mostrarNotificacao("Conectado à sala: " + nome);
@@ -944,6 +956,7 @@ async function entrarVoz(nome) {
         mostrarNotificacao("Não foi possível entrar na sala.");
     }
 }
+
 
 async function alternarMicrofone() {
     if (!salaAtual) {
