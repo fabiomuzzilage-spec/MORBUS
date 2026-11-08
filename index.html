@@ -684,7 +684,7 @@ body {
             <span>MORBUS COMMUNITY</span>
         </header>
         
-<div id="telasCompartilhadas" class="telas-compartilhadas"></div
+<div id="telasCompartilhadas" class="telas-compartilhadas"></div>
                                                                
         <div class="mensagens" id="mensagens">
 
@@ -791,8 +791,10 @@ const historicoCanais = historicoSalvo
         geral: conteudoInicial
     };
 
-document.getElementById("mensagens").innerHTML =
-    historicoCanais[canalAtual] || "";
+if (document.getElementById("mensagens")) {
+    document.getElementById("mensagens").innerHTML =
+        historicoCanais[canalAtual] || "";
+}
 
     document.getElementById("formLogin").addEventListener("submit", function(event) {
         event.preventDefault();
