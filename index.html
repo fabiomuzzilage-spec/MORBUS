@@ -730,6 +730,12 @@ body {
 <script>
    let canalAtual = "geral";
    let canaisNaoLidos = [];
+   let salaAtual = null;
+   let nomeSalaAtual = null;
+
+const tokenSource = LivekitClient.TokenSource.developmentTokenServer(
+    "morbus-yr3z49"
+);
 
 const conteudoInicial = document.getElementById("mensagens").innerHTML;
 
