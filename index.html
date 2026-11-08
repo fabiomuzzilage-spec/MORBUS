@@ -543,13 +543,15 @@ body {
     margin-left: 8px;
     box-shadow: 0 0 8px #ff6500;
 }
-    .telas-compartilhadas {
+
+.telas-compartilhadas {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
     gap: 15px;
-    padding: 15px;
-    max-height: 65vh;
+    padding: 10px;
+    max-height: 60vh;
     overflow-y: auto;
+    align-items: start;
 }
 
 .tela-participante {
@@ -559,12 +561,14 @@ body {
     padding: 10px;
     box-shadow: 0 0 12px #ff650033;
     min-width: 0;
+    overflow: hidden;
 }
 
 .tela-participante video {
     width: 100%;
-    height: auto;
+    height: min(55vh, 600px);
     display: block;
+    object-fit: contain;
     border-radius: 6px;
     background: #000;
 }
