@@ -652,7 +652,9 @@ body {
             <h2 id="tituloCanal"># geral</h2>
             <span>MORBUS COMMUNITY</span>
         </header>
-
+        
+<div id="telasCompartilhadas" class="telas-compartilhadas"></div
+                                                               
         <div class="mensagens" id="mensagens">
 
            <div class="boas-vindas">
@@ -921,7 +923,30 @@ async function alternarMicrofone() {
 
     mostrarNotificacao("Você saiu da sala.");
 }
+async function compartilharTela() {
+    if (!salaAtual) {
+        mostrarNotificacao("Entre em uma sala de voz primeiro.");
+        return;
+    }
 
+    try {
+        const participante = salaAtual.localParticipant;
+        const ativado = !participante.isScreenShareEnabled;
+
+        await participante.setScreenShareEnabled(ativado);
+
+        mostrarNotificacao(
+            ativado
+                ? "Compartilhamento iniciado!"
+                : "Compartilhamento encerrado!"
+        );
+
+    } catch (erro) {
+        console.error("Erro ao compartilhar tela:", erro);
+        mostrarNotificacao("Não foi possível compartilhar a tela.");
+    }
+}
+    
 document.getElementById("formMensagem").addEventListener("submit", function(event) {
     event.preventDefault();
 
