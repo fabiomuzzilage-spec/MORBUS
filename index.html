@@ -1115,17 +1115,20 @@ async function compartilharTela() {
         return;
     }
 
-    try {
-        const participante = salaAtual.localParticipant;
-        const ativado = !participante.isScreenShareEnabled;
+   try {
+    const participante = salaAtual.localParticipant;
+    const ativado = !participante.isScreenShareEnabled;
 
-        await participante.setScreenShareEnabled(ativado);
+    await participante.setScreenShareEnabled(ativado, {
+        audio: true,
+        systemAudio: "include"
+    });
 
-        mostrarNotificacao(
-            ativado
-                ? "Compartilhamento iniciado!"
-                : "Compartilhamento encerrado!"
-        );
+    mostrarNotificacao(
+        ativado
+            ? "Compartilhamento iniciado!"
+            : "Compartilhamento encerrado!"
+    );
 
     } catch (erro) {
         console.error("Erro ao compartilhar tela:", erro);
