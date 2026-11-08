@@ -1021,12 +1021,32 @@ function exibirTela(track, identidade) {
 }
 
         sala
-            .on(LivekitClient.RoomEvent.TrackSubscribed, (track, publication, participante) => {
+          .on(LivekitClient.RoomEvent.TrackSubscribed, async (track, publication, participante) => {
 
-                if (publication.source === LivekitClient.Track.Source.ScreenShare) {
-                    exibirTela(track, participante.identity);
-                }
-            })
+    if (publication.source === LivekitClient.Track.Source.ScreenShare) {
+        exibirTela(track, participante.identity);
+    }
+
+    if (
+        publication.source === LivekitClient.Track.Source.ScreenShareAudio ||
+        publication.source === LivekitClient.Track.Source.Microphone
+    ) {
+        const audio = track.attach();
+
+        audio.autoplay = true;
+        audio.playsInline = true;
+        audio.style.display = "none";
+
+        document.body.appendChild(audio);
+
+        try {
+            await audio.play();
+            console.log("Áudio recebido e reproduzido:", participante.identity);
+        } catch (erro) {
+            console.error("Falha ao reproduzir áudio:", erro);
+        }
+    }
+})
 
             .on(LivekitClient.RoomEvent.LocalTrackPublished, (publication, participante) => {
 
