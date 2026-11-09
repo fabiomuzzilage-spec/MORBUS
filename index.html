@@ -1101,6 +1101,10 @@ async function alternarMicrofone() {
         return;
     }
 
+    await salaAtual.startAudio();
+
+    console.log("Reprodução de áudio liberada!");
+    
     try {
         const participante = salaAtual.localParticipant;
         const ativado = !participante.isMicrophoneEnabled;
