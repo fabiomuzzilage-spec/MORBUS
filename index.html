@@ -633,6 +633,46 @@ body {
         max-height: none;
     }
 }
+    .painel-controles-audio {
+    background: #171717;
+    border: 1px solid #ff6500;
+    border-radius: 10px;
+    padding: 12px;
+    margin: 10px;
+    color: #fff;
+}
+
+.painel-controles-audio h4 {
+    margin: 0 0 10px;
+    color: #ff6500;
+}
+
+.controle-audio {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 8px;
+}
+
+.controle-audio span {
+    min-width: 100px;
+}
+
+.controle-audio input[type="range"] {
+    flex: 1;
+    min-width: 80px;
+    accent-color: #ff6500;
+}
+
+.controle-audio button {
+    background: #ff6500;
+    color: #111;
+    border: none;
+    border-radius: 6px;
+    padding: 6px 10px;
+    cursor: pointer;
+}
 
 </style>
 </head>
@@ -819,6 +859,8 @@ body {
    let canaisNaoLidos = [];
    let salaAtual = null;
    let nomeSalaAtual = null;
+    
+const audiosTela = new Map();
     
 const supabaseUrl = "https://jxggjnjkjjlctlikgvjk.supabase.co";
 const supabaseKey = "sb_publishable_0_yxYeLmfJjcS5mYt-aFNQ_9vEan6a6";
@@ -1048,6 +1090,13 @@ async function entrarVoz(nome) {
 
         document.getElementById("telasCompartilhadas").innerHTML = "";
 
+audiosTela.forEach(audio => {
+    audio.pause();
+    audio.remove();
+});
+
+audiosTela.clear();
+
         const credenciais = await tokenSource.fetch({
             roomName: nome,
             participantName: document.getElementById("nomeLogado").textContent
@@ -1055,7 +1104,134 @@ async function entrarVoz(nome) {
 
         const sala = new LivekitClient.Room();
 
-     
+     function identificarTipoAudio(publication) {
+
+    if (publication.source === LivekitClient.Track.Source.Microphone) {
+        return "microfone";
+    }
+
+    if (publication.source === LivekitClient.Track.Source.ScreenShareAudio) {
+        return "tela";
+    }
+
+    return null;
+}
+        function obterPainelControlesAudio(identidade) {
+
+    const area = document.getElementById("telasCompartilhadas");
+
+    let painel = area.querySelector(
+        `[data-controles-audio="${identidade}"]`
+    );
+
+    if (!painel) {
+        painel = document.createElement("div");
+        painel.className = "painel-controles-audio";
+        painel.dataset.controlesAudio = identidade;
+
+        const titulo = document.createElement("h4");
+        titulo.textContent = identidade;
+
+        painel.appendChild(titulo);
+        area.appendChild(painel);
+    }
+function criarControleAudio(identidade, tipo) {
+
+    const painel = obterPainelControlesAudio(identidade);
+
+    if (painel.querySelector(`[data-controle-tipo="${tipo}"]`)) {
+        return;
+    }
+
+    const linha = document.createElement("div");
+    linha.className = "controle-audio";
+    linha.dataset.controleTipo = tipo;
+
+    const titulo = document.createElement("span");
+    titulo.textContent = tipo === "microfone"
+        ? "Microfone"
+        : "Áudio da tela";
+
+    const volume = document.createElement("input");
+    volume.type = "range";
+    volume.min = 0;
+    volume.max = 100;
+    volume.value = 100;
+
+    volume.addEventListener("input", () => {
+        const audio = audiosTela.get(identidade + ":" + tipo);
+
+        if (audio) {
+            audio.volume = volume.value / 100;
+        }
+    });
+
+    const botaoMudo = document.createElement("button");
+    botaoMudo.type = "button";
+    botaoMudo.textContent = "Mutar";
+
+    botaoMudo.addEventListener("click", () => {
+        const audio = audiosTela.get(identidade + ":" + tipo);
+
+        if (audio) {
+            audio.muted = !audio.muted;
+            botaoMudo.textContent = audio.muted ? "Ativar som" : "Mutar";
+        }
+    });
+
+    linha.appendChild(titulo);
+    linha.appendChild(volume);
+    linha.appendChild(botaoMudo);
+
+    painel.appendChild(linha);
+}
+  async function registrarAudioParticipante(track, publication, participante) {
+
+    const tipo = identificarTipoAudio(publication);
+
+    if (!tipo) return;
+
+    const identidade = participante.identity;
+    const chave = identidade + ":" + tipo;
+
+    const audioAnterior = audiosTela.get(chave);
+
+    if (audioAnterior) {
+        audioAnterior.pause();
+        audioAnterior.remove();
+    }
+
+    const audio = track.attach();
+
+    audio.autoplay = true;
+    audio.playsInline = true;
+    audio.style.display = "none";
+    audio.volume = 1;
+    audio.muted = false;
+
+    audio.dataset.identidade = identidade;
+    audio.dataset.tipo = tipo;
+
+    document.body.appendChild(audio);
+
+    audiosTela.set(chave, audio);
+
+   criarControleAudio(identidade, tipo);
+
+    try {
+        await audio.play();
+
+        console.log(
+            "Áudio registrado:",
+            identidade,
+            tipo
+        );
+
+    } catch (erro) {
+        console.error("Falha ao reproduzir áudio:", erro);
+    }
+}
+        
 function exibirTela(track, identidade) {
     const area = document.getElementById("telasCompartilhadas");
 
@@ -1114,25 +1290,15 @@ function exibirTela(track, identidade) {
     if (publication.source === LivekitClient.Track.Source.ScreenShare) {
         exibirTela(track, participante.identity);
     }
-
     if (
         publication.source === LivekitClient.Track.Source.ScreenShareAudio ||
         publication.source === LivekitClient.Track.Source.Microphone
     ) {
-        const audio = track.attach();
-
-        audio.autoplay = true;
-        audio.playsInline = true;
-        audio.style.display = "none";
-
-        document.body.appendChild(audio);
-
-        try {
-            await audio.play();
-            console.log("Áudio recebido e reproduzido:", participante.identity);
-        } catch (erro) {
-            console.error("Falha ao reproduzir áudio:", erro);
-        }
+               await registrarAudioParticipante(
+            track,
+            publication,
+            participante
+        );
     }
 })
 
@@ -1143,7 +1309,39 @@ function exibirTela(track, identidade) {
                 }
             })
 
-            .on(LivekitClient.RoomEvent.TrackUnsubscribed, (track) => {
+            .on(LivekitClient.RoomEvent.TrackUnsubscribed, (track, publication, participante) => {
+                    if (
+        publication.source === LivekitClient.Track.Source.Microphone ||
+        publication.source === LivekitClient.Track.Source.ScreenShareAudio
+    ) {
+        const tipo = identificarTipoAudio(publication);
+        const chave = participante.identity + ":" + tipo;
+
+        const audio = audiosTela.get(chave);
+
+        if (audio) {
+            audio.pause();
+            audio.remove();
+            audiosTela.delete(chave);
+            const painelControles = document.querySelector(
+    `[data-controles-audio="${participante.identity}"]`
+);
+
+if (painelControles) {
+    const controle = painelControles.querySelector(
+        `[data-controle-tipo="${tipo}"]`
+    );
+
+    if (controle) {
+        controle.remove();
+    }
+
+    if (!painelControles.querySelector("[data-controle-tipo]")) {
+        painelControles.remove();
+    }
+}
+        }
+    }
                 track.detach().forEach(elemento => {
                     const painel = elemento.closest(".tela-participante");
 
