@@ -1336,7 +1336,44 @@ function exibirTela(track, identidade) {
         );
     }
 })
+.on(LivekitClient.RoomEvent.TrackMuted, (publication, participante) => {
+    if (publication.source === LivekitClient.Track.Source.Microphone) {
+        const chave = participante.identity + ":microfone";
+        const audio = audiosTela.get(chave);
 
+        if (audio) {
+            audio.pause();
+            audio.remove();
+            audiosTela.delete(chave);
+        }
+
+        const painel = document.querySelector(
+            `[data-controles-audio="${participante.identity}"]`
+        );
+
+        if (painel) {
+            const controle = painel.querySelector(
+                '[data-controle-tipo="microfone"]'
+            );
+
+            if (controle) controle.remove();
+
+            if (!painel.querySelector("[data-controle-tipo]")) {
+                painel.remove();
+            }
+        }
+    }
+})
+
+.on(LivekitClient.RoomEvent.TrackUnmuted, (publication, participante) => {
+    if (publication.source === LivekitClient.Track.Source.Microphone) {
+        const track = publication.track;
+
+        if (track) {
+            registrarAudioParticipante(track, publication, participante);
+        }
+    }
+})
             .on(LivekitClient.RoomEvent.LocalTrackPublished, (publication, participante) => {
 
                 if (publication.source === LivekitClient.Track.Source.ScreenShare) {
@@ -1431,7 +1468,7 @@ async function alternarMicrofone() {
         const ativado = !participante.isMicrophoneEnabled;
 
         await participante.setMicrophoneEnabled(ativado);
-
+        
         mostrarNotificacao(
             ativado ? "Microfone ligado!" : "Microfone desligado!"
         );
