@@ -1080,6 +1080,7 @@ function exibirTela(track, identidade) {
 
     const painel = document.createElement("div");
     painel.className = "tela-participante";
+    painel.dataset.identidade = identidade;
 
     painel.appendChild(video);
 
