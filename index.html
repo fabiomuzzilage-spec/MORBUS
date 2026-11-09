@@ -780,33 +780,15 @@ body {
 
     </section>
 
-    <aside class="membros">
+  <aside class="membros">
 
-        <div class="titulo-membros">MEMBROS — 3</div>
+    <div class="titulo-membros" id="tituloMembros">
+        MEMBROS — 0
+    </div>
 
-        <div class="membro">
-            <div class="avatar">M</div>
-            <div>
-                <span id="membroAtual">Membro</span>
-                <small class="online">● Online</small>
-            </div>
-        </div>
+    <div id="listaMembros"></div>
 
-        <div class="membro">
-            <div class="avatar">C</div>
-            <div>
-                <span>Cowboy</span>
-                <small class="online">● Online</small>
-            </div>
-        </div>
-
-        <div class="membro">
-            <div class="avatar">P</div>
-            <div>
-                <span>Portuguinha</span>
-                <small class="online">● Online</small>
-            </div>
-        </div>
+</aside>
 
        
 <div class="controles-voz">
@@ -829,12 +811,22 @@ body {
 
 
 <script src="https://cdn.jsdelivr.net/npm/livekit-client/dist/livekit-client.umd.js"></script>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     
 <script>
    let canalAtual = "geral";
    let canaisNaoLidos = [];
    let salaAtual = null;
    let nomeSalaAtual = null;
+    
+const supabaseUrl = "https://jxggjnjkjjlctlikgvjk.supabase.co";
+const supabaseKey = "sb_publishable_0_yxYeLmfJjcS5mYt-aFNQ_9vEan6a6";
+
+const clienteSupabase = supabase.createClient(
+    supabaseUrl,
+    supabaseKey
+);
 
 const tokenSource = LivekitClient.TokenSource.developmentTokenServer(
     "morbus-yr3z49"
@@ -863,7 +855,6 @@ if (document.getElementById("mensagens")) {
         if (!nome) return;
 
     document.getElementById("nomeLogado").textContent = nome;
-    document.getElementById("membroAtual").textContent = nome;
     document.getElementById("avatarUsuario").textContent = nome.charAt(0).toUpperCase();
 
     document.getElementById("login").style.display = "none";
