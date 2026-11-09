@@ -826,6 +826,10 @@ const supabaseKey = "sb_publishable_0_yxYeLmfJjcS5mYt-aFNQ_9vEan6a6";
 const clienteSupabase = supabase.createClient(
     supabaseUrl,
     supabaseKey
+    let canalPresenca = null;
+
+const idSessaoMorbus = crypto.randomUUID();
+    
 );
 
 const tokenSource = LivekitClient.TokenSource.developmentTokenServer(
@@ -846,13 +850,105 @@ if (document.getElementById("mensagens")) {
     document.getElementById("mensagens").innerHTML =
         historicoCanais[canalAtual] || "";
 }
+    
+function iniciarPresenca(nome) {
+    
+    function atualizarListaMembros() {
 
+    const lista = document.getElementById("listaMembros");
+    const titulo = document.getElementById("tituloMembros");
+
+    if (!lista || !titulo || !canalPresenca) return;
+
+    const presencas = canalPresenca.presenceState();
+    const membros = new Map();
+
+    Object.values(presencas).forEach(sessoes => {
+
+        sessoes.forEach(sessao => {
+
+            if (!sessao.nome) return;
+
+            const nome = sessao.nome.trim();
+
+            if (!nome) return;
+
+            membros.set(nome.toLowerCase(), nome);
+        });
+    });
+
+    lista.innerHTML = "";
+
+    titulo.textContent = "MEMBROS — " + membros.size;
+
+    membros.forEach(nome => {
+
+        const membro = document.createElement("div");
+        membro.className = "membro";
+
+        const avatar = document.createElement("div");
+        avatar.className = "avatar";
+        avatar.textContent = nome.charAt(0).toUpperCase();
+
+        const informacoes = document.createElement("div");
+
+        const nomeElemento = document.createElement("span");
+        nomeElemento.textContent = nome;
+
+        const status = document.createElement("small");
+        status.className = "online";
+        status.textContent = "● Online";
+
+        informacoes.appendChild(nomeElemento);
+        informacoes.appendChild(status);
+
+        membro.appendChild(avatar);
+        membro.appendChild(informacoes);
+
+        lista.appendChild(membro);
+    });
+}
+
+    canalPresenca = clienteSupabase.channel("morbus-presenca", {
+        config: {
+            presence: {
+                key: idSessaoMorbus
+            }
+        }
+    });
+
+    canalPresenca
+        .on("presence", { event: "sync" }, () => {
+            atualizarListaMembros();
+        })
+        .on("presence", { event: "join" }, () => {
+            atualizarListaMembros();
+        })
+        .on("presence", { event: "leave" }, () => {
+            atualizarListaMembros();
+        })
+        .subscribe(async (status) => {
+
+            if (status === "SUBSCRIBED") {
+
+                await canalPresenca.track({
+                    nome: nome,
+                    status: "online",
+                    sala: null
+                });
+
+                console.log("Presença iniciada:", nome);
+            }
+        });
+}
     document.getElementById("formLogin").addEventListener("submit", function(event) {
         event.preventDefault();
 
         const nome = document.getElementById("nomeUsuario").value.trim();
 
         if (!nome) return;
+        
+        iniciarPresenca(nome);
 
     document.getElementById("nomeLogado").textContent = nome;
     document.getElementById("avatarUsuario").textContent = nome.charAt(0).toUpperCase();
